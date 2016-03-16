@@ -64,8 +64,8 @@ public class PacientePersistenceTest {
         consultas.add(c1);
         p.setConsultas(consultas);
         dp.save(p);
-        Paciente res = dp.load(987, "CC");
-        assertEquals(res, p);
+        Paciente res = dp.load(987, "CC");;
+        assertEquals(p,res);
         assertEquals(2, res.getConsultas().size());
         
         //Prueba 2
