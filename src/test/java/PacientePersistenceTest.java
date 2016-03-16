@@ -18,11 +18,14 @@
 import edu.eci.pdsw.samples.entities.Consulta;
 import edu.eci.pdsw.samples.entities.Paciente;
 import edu.eci.pdsw.samples.persistence.DaoFactory;
+import edu.eci.pdsw.samples.persistence.DaoPaciente;
 import edu.eci.pdsw.samples.persistence.PersistenceException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
+import java.util.LinkedHashSet;
 import java.util.Properties;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -51,6 +54,27 @@ public class PacientePersistenceTest {
         
         daof.beginSession();
         
+        //Prueba 1
+        DaoPaciente dp = daof.getDaoPaciente();
+        Paciente  p = new Paciente(987, "CC", "Juan Sanchez", java.sql.Date.valueOf("1995-01-01"));
+        Set<Consulta> consultas = new LinkedHashSet<>();
+        Consulta c = new Consulta(java.sql.Date.valueOf("2000-10-01"), "Consulta general");
+        Consulta c1 = new Consulta(java.sql.Date.valueOf("2001-01-01"), "Consulta de control");
+        consultas.add(c);
+        consultas.add(c1);
+        p.setConsultas(consultas);
+        dp.save(p);
+        Paciente res = dp.load(987, "CC");
+        assertEquals(res, p);
+        assertEquals(2, res.getConsultas().size());
+        
+        //Prueba 2
+        
+        Paciente  p1 = new Paciente(9876, "TI", "David Lopez", java.sql.Date.valueOf("2005-01-01"));
+        dp.save(p1);
+        Paciente res1 = dp.load(9876, "TI");
+        assertEquals(res1, p1);
+        assertEquals(0, res1.getConsultas().size());
         //IMPLEMENTACION DE LAS PRUEBAS
         //fail("Pruebas no implementadas");
 
@@ -58,6 +82,5 @@ public class PacientePersistenceTest {
         daof.commitTransaction();
         daof.endSession();        
     }
-    
     
 }
