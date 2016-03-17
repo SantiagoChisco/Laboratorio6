@@ -64,17 +64,33 @@ public class PacientePersistenceTest {
         consultas.add(c1);
         p.setConsultas(consultas);
         dp.save(p);
-        Paciente res = dp.load(987, "CC");;
+        Paciente res = dp.load(987, "CC");
         assertEquals(p,res);
         assertEquals(2, res.getConsultas().size());
         
-        //Prueba 2
-        
+        //Prueba 2  
         Paciente  p1 = new Paciente(9876, "TI", "David Lopez", java.sql.Date.valueOf("2005-01-01"));
         dp.save(p1);
         Paciente res1 = dp.load(9876, "TI");
         assertEquals(res1, p1);
         assertEquals(0, res1.getConsultas().size());
+      
+        //Prueba 3
+        Paciente p2 = new Paciente(999, "CC", "David Chisco", java.sql.Date.valueOf("2006-05-06"));
+        Set<Consulta> consultas2 = new LinkedHashSet<>();
+        Consulta c2 = new Consulta(java.sql.Date.valueOf("2002-05-04"), "Consulta por urgencias");
+        consultas2.add(c2);
+        p2.setConsultas(consultas2);
+        dp.save(p2);
+        Paciente respu = dp.load(999, "CC");
+        assertEquals(1, respu.getConsultas().size());
+        
+        //Prueba 4
+        Paciente res3 = dp.load(987, "CC");
+        if (res3.getConsultas().size() <= 1) {
+            fail();
+        }
+        
         //IMPLEMENTACION DE LAS PRUEBAS
         //fail("Pruebas no implementadas");
 
@@ -82,5 +98,71 @@ public class PacientePersistenceTest {
         daof.commitTransaction();
         daof.endSession();        
     }
+    
+//    @Test
+//    public void databaseConnectionTest2() throws IOException, PersistenceException{
+//        InputStream input = null;
+//        input = ClassLoader.getSystemResourceAsStream("applicationconfig_test.properties");
+//        Properties properties=new Properties();
+//        properties.load(input);
+//        
+//        DaoFactory daof2=DaoFactory.getInstance(properties);
+//        
+//        daof2.beginSession();
+//          //Prueba 2  
+//          DaoPaciente dp = daof2.getDaoPaciente();
+//        Paciente  p1 = new Paciente(9876, "TI", "David Lopez", java.sql.Date.valueOf("2005-01-01"));
+//        dp.save(p1);
+//        Paciente res1 = dp.load(9876, "TI");
+//        assertEquals(res1, p1);
+//        assertEquals(0, res1.getConsultas().size());
+//        daof2.commitTransaction();
+//        daof2.endSession();  
+//    }
+    
+//    @Test
+//    public void databaseConnectionTest3() throws IOException, PersistenceException{
+//        InputStream input = null;
+//        input = ClassLoader.getSystemResourceAsStream("applicationconfig_test.properties");
+//        Properties properties=new Properties();
+//        properties.load(input);
+//        
+//        DaoFactory daof3=DaoFactory.getInstance(properties);
+//        
+//     
+//       daof3.beginSession();
+//        //Prueba 3
+//        DaoPaciente daop = daof3.getDaoPaciente();
+//        Paciente p2 = new Paciente(999, "CC", "David Chisco", java.sql.Date.valueOf("2006-05-06"));
+//        Set<Consulta> consultas2 = new LinkedHashSet<>();
+//        Consulta c2 = new Consulta(java.sql.Date.valueOf("2002-05-04"), "Consulta por urgencias");
+//        consultas2.add(c2);
+//        p2.setConsultas(consultas2);
+//        daop.save(p2);
+//        Paciente respu = daop.load(999, "CC");
+//        assertEquals(1, respu.getConsultas().size());
+//        
+//        daof3.commitTransaction();
+//        daof3.endSession();  
+//    }
+//    @Test
+//    public void databaseConnectionTest4() throws IOException, PersistenceException{
+//        InputStream input = null;
+//        input = ClassLoader.getSystemResourceAsStream("applicationconfig_test.properties");
+//        Properties properties=new Properties();
+//        properties.load(input);
+//        
+//        DaoFactory daof=DaoFactory.getInstance(properties);
+//        
+//        daof.beginSession();
+//          //Prueba 4
+//          DaoPaciente dp = daof.getDaoPaciente();
+//        Paciente res3 = dp.load(987, "CC");
+//        if (res3.getConsultas().size() <= 1){
+//            fail();
+//        }
+//        daof.commitTransaction();
+//        daof.endSession();  
+//    }
     
 }
