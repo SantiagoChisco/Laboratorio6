@@ -25,6 +25,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
 
 /**
  *
@@ -62,6 +63,7 @@ public class JDBCDaoPaciente implements DaoPaciente {
     @Override
     public void save(Paciente p) throws PersistenceException {
         PreparedStatement ps;
+        PreparedStatement cs;
         try {
         ps = con.prepareStatement("INSERT into PACIENTES(id,tipo_id,nombre,fecha_nacimiento) values(?,?,?,?)");
             ps.setInt(1, p.getId());
@@ -71,6 +73,18 @@ public class JDBCDaoPaciente implements DaoPaciente {
 
             ps.execute();
             
+            
+                 Iterator<Consulta> i= p.getConsultas().iterator();
+            while(i.hasNext()){
+                    Consulta a=i.next();
+                    cs=con.prepareStatement("INSERT INTO CONSULTAS (fecha_y_hora,resumen,PACIENTES_id,PACIENTES_tipo_id) values (?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+                    
+                    cs.setDate(1, a.getFechayHora());
+                    cs.setString(2, a.getResumen());
+                    cs.setInt(3, p.getId());
+                    cs.setString(4, p.getTipo_id());
+                    cs.execute(); 
+                }  
         } catch (SQLException ex) {
             throw new PersistenceException("An error ocurred while loading a product.",ex);
         }
