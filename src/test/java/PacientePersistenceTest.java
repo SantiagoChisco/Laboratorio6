@@ -68,13 +68,13 @@ public class PacientePersistenceTest {
         //assertEquals(java.lang.Object p, java.lang.Object res);
         assertEquals(p.getId(), res.getId());
         assertEquals(2, res.getConsultas().size());
-        /*
+        
         //Prueba 2  
         Paciente  p1 = new Paciente(9876, "TI", "David Lopez", java.sql.Date.valueOf("2005-01-01"));
         dp.save(p1);
         Paciente res1 = dp.load(9876, "TI");
-        assertEquals(res1, p1);
-        assertEquals(0, res1.getConsultas().size());
+        //assertEquals(res1, p1);
+        assertEquals(p1.getNombre(), res1.getNombre());
       
         //Prueba 3
         Paciente p2 = new Paciente(999, "CC", "David Chisco", java.sql.Date.valueOf("2006-05-06"));
@@ -91,7 +91,7 @@ public class PacientePersistenceTest {
         if (res3.getConsultas().size() <= 1) {
             fail();
         }
-        */
+        
         //IMPLEMENTACION DE LAS PRUEBAS
         //fail("Pruebas no implementadas");
 
