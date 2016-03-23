@@ -65,6 +65,7 @@ public class PacientePersistenceTest {
         p.setConsultas(consultas);
         dp.save(p);
         Paciente res = dp.load(987, "CC");
+        //assertEquals(java.lang.Object p, java.lang.Object res);
         assertEquals(p.getId(), res.getId());
         assertEquals(2, res.getConsultas().size());
         /*
@@ -74,7 +75,7 @@ public class PacientePersistenceTest {
         Paciente res1 = dp.load(9876, "TI");
         assertEquals(res1, p1);
         assertEquals(0, res1.getConsultas().size());
-        */
+      
         //Prueba 3
         Paciente p2 = new Paciente(999, "CC", "David Chisco", java.sql.Date.valueOf("2006-05-06"));
         Set<Consulta> consultas2 = new LinkedHashSet<>();
@@ -90,7 +91,7 @@ public class PacientePersistenceTest {
         if (res3.getConsultas().size() <= 1) {
             fail();
         }
-        
+        */
         //IMPLEMENTACION DE LAS PRUEBAS
         //fail("Pruebas no implementadas");
 

@@ -26,8 +26,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  *
@@ -45,34 +43,21 @@ public class JDBCDaoPaciente implements DaoPaciente {
     @Override
     public Paciente load(int idpaciente, String tipoid) throws PersistenceException {
         PreparedStatement ps;
-        Set<Consulta> consultas = new LinkedHashSet<>();
-        
         try {
-            
-            ps = con.prepareStatement("select pac.nombre, pac.fecha_nacimiento, con.idCONSULTAS, con.fecha_y_hora, con.resumen \n" +
-"from PACIENTES as pac inner join CONSULTAS as con on con.PACIENTES_id=pac.id and con.PACIENTES_tipo_id=pac.tipo_id \n" +
-"where pac.id=? and pac.tipo_id=?");
+            System.out.println("Entro al try");
+            ps = con.prepareStatement("SELECT id,tipo_id,nombre,fecha_nacimiento from PACIENTES WHERE id=? AND tipo_id=?");
             ps.setInt(1, idpaciente);
             ps.setString(2, tipoid);
             ResultSet rs=ps.executeQuery();
             
             if (rs.next()){
-                Paciente p = new Paciente(idpaciente, tipoid, rs.getString(1),rs.getDate(2));
-                consultas.add(new Consulta(rs.getDate(4),rs.getString(5)));
-                while(rs.next()){   
-                consultas.add(new Consulta(rs.getDate(4),rs.getString(5)));
-            }
-                p.setConsultas(consultas);
-                return p;
-
+                return new Paciente(idpaciente, tipoid, rs.getString(3),rs.getDate(4));
             }
             
         } catch (SQLException ex) {
             throw new PersistenceException("An error ocurred while loading "+idpaciente,ex);
         }
         throw new RuntimeException("No se ha implementado el metodo 'load' del DAOPAcienteJDBC");
-    
-      
     }
 
     @Override
