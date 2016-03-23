@@ -67,14 +67,14 @@ public class PacientePersistenceTest {
         Paciente res = dp.load(987, "CC");
         assertEquals(p.getId(), res.getId());
         assertEquals(2, res.getConsultas().size());
-        /*
+        
         //Prueba 2  
         Paciente  p1 = new Paciente(9876, "TI", "David Lopez", java.sql.Date.valueOf("2005-01-01"));
         dp.save(p1);
         Paciente res1 = dp.load(9876, "TI");
-        assertEquals(res1, p1);
-        assertEquals(0, res1.getConsultas().size());
-        */
+        assertEquals(p1.getNombre(), res1.getNombre());
+     
+        
         //Prueba 3
         Paciente p2 = new Paciente(999, "CC", "David Chisco", java.sql.Date.valueOf("2006-05-06"));
         Set<Consulta> consultas2 = new LinkedHashSet<>();

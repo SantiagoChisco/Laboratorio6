@@ -50,7 +50,7 @@ public class JDBCDaoPaciente implements DaoPaciente {
         try {
             
             ps = con.prepareStatement("select pac.nombre, pac.fecha_nacimiento, con.idCONSULTAS, con.fecha_y_hora, con.resumen \n" +
-"from PACIENTES as pac inner join CONSULTAS as con on con.PACIENTES_id=pac.id and con.PACIENTES_tipo_id=pac.tipo_id \n" +
+"from PACIENTES as pac left join CONSULTAS as con on con.PACIENTES_id=pac.id and con.PACIENTES_tipo_id=pac.tipo_id \n" +
 "where pac.id=? and pac.tipo_id=?");
             ps.setInt(1, idpaciente);
             ps.setString(2, tipoid);
